@@ -1,8 +1,6 @@
 package com.test.walkingindoor.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.test.walkingindoor.utils.ListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +15,6 @@ class HomeViewModel  @Inject constructor():ViewModel() {
     val selectedWalkTypes:  StateFlow<String> = _selectedWalkTypes
 
     fun onGoalSelected(goal: List<String>) {
-        Log.d("TAG", "viewmodel: $goal")
         _selectedGoal.value = goal
     }
 
