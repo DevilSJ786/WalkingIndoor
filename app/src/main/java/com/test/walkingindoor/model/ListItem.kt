@@ -1,4 +1,4 @@
-package com.test.walkingindoor.utils
+package com.test.walkingindoor.model
 
 data class ListItem(
     val title:String,

@@ -1,13 +1,12 @@
 package com.test.walkingindoor.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.test.walkingindoor.screens.goals.GoalsScreen
 import com.test.walkingindoor.screens.home.HomeScreen
-import com.test.walkingindoor.screens.home.HomeViewModel
+import com.test.walkingindoor.viewmodel.HomeViewModel
 import com.test.walkingindoor.screens.walking_types.WalkingtypesScreen
 
 @Composable

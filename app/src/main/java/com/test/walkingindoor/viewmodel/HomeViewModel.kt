@@ -1,4 +1,4 @@
-package com.test.walkingindoor.screens.home
+package com.test.walkingindoor.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

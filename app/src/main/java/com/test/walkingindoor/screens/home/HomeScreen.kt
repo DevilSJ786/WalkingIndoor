@@ -18,10 +18,12 @@ import androidx.navigation.NavController
 import com.test.walkingindoor.R
 import com.test.walkingindoor.component.*
 import com.test.walkingindoor.navigation.AppScreens
+import com.test.walkingindoor.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
+
     val selectedGoal by homeViewModel.selectedGoal.collectAsState(emptyList())
     val selectedWalkTypes by homeViewModel.selectedWalkTypes.collectAsState("")
 
@@ -32,30 +34,31 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = sheetState
     )
+    val scope = rememberCoroutineScope()
 
     var visible by remember {
         mutableStateOf(false)
     }
-    var hight by remember {
-        mutableStateOf(200.dp)
-    }
-    val scope = rememberCoroutineScope()
     BottomSheetScaffold(
         sheetContent = {
             Column(
                 Modifier
-                    .height(hight)
+                    .fillMaxHeight(0.6f)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 BottomSheetDragHandle()
-
+                Divider(
+                    modifier = Modifier
+                        .height(3.dp)
+                        .fillMaxWidth()
+                )
                 Row(
                     Modifier
-                        .padding(7.dp)
-                        .weight(0.5f),
-                    horizontalArrangement = Arrangement.Center
+                        .padding(7.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.Top
                 ) {
                     CardItem(
                         name = "Music ",
@@ -73,7 +76,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
                         columns = GridCells.Adaptive(128.dp),
                         contentPadding = PaddingValues(
                             start = 12.dp,
-                            top = 16.dp,
+                            top = 0.dp,
                             end = 12.dp,
                             bottom = 16.dp
                         ),
@@ -134,11 +137,14 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
             }
         },
         sheetBackgroundColor = Color.Gray,
-        backgroundColor = Color.Blue,
+        backgroundColor = MaterialTheme.colors.background,
         sheetPeekHeight = 200.dp,
         scaffoldState = scaffoldState
 
     ) {
+
+            visible = !sheetState.isCollapsed
+
         MainCircularSlider()
     }
 }

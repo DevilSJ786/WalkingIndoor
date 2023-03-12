@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.test.walkingindoor.screens.home.HomeViewModel
-import com.test.walkingindoor.utils.ListItem
+import com.test.walkingindoor.model.ListItem
+import com.test.walkingindoor.viewmodel.HomeViewModel
 
 @Composable
 fun GoalsScreen(navController: NavController, homeViewModel: HomeViewModel) {
