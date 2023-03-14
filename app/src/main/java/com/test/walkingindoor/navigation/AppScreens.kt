@@ -4,7 +4,8 @@ package com.test.walkingindoor.navigation
 enum class AppScreens {
     HomeScreen,
     WalkingtypesScreen,
-    GoalsScreen
+    GoalsScreen,
+    StepsCounterScreen
     ;
 
     companion object {
@@ -13,6 +14,7 @@ enum class AppScreens {
                 HomeScreen.name -> HomeScreen
                 WalkingtypesScreen.name -> WalkingtypesScreen
                 GoalsScreen.name->GoalsScreen
+                StepsCounterScreen.name->StepsCounterScreen
                 null -> HomeScreen
                 else -> throw IllegalArgumentException("Route $route is not valid")
             }
