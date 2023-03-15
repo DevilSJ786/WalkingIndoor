@@ -134,7 +134,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
         visible = !sheetState.isCollapsed
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = it.calculateTopPadding())
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(spacing.medium),
         ) {
@@ -206,8 +206,7 @@ fun DetailsCard(modifier: Modifier) {
         backgroundColor = MaterialTheme.colors.background,
     ) {
         Row(
-            modifier=Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(spacing.medium)
+            modifier = Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceAround
         ) {
             DetailsItem(
                 type = "Distance",
