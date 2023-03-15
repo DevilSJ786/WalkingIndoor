@@ -1,10 +1,10 @@
 package com.test.walkingindoor.viewmodel
 
-import android.util.Log
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.test.walkingindoor.screens.home.StepCounterUIEvent
+import com.test.walkingindoor.screens.steps_counter.StepCounterUIState
 import com.test.walkingindoor.sensor.MeasurableSensor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,16 +30,28 @@ class HomeViewModel @Inject constructor(
         _selectedWalkTypes.value = walkTypes
     }
 
-    var isDark by mutableStateOf(false)
-    var steps by mutableStateOf(0f)
 
-    init {
+    private val _uiState = mutableStateOf(StepCounterUIState())
+    val uiState: State<StepCounterUIState> = _uiState
 
+    fun onUIEvent(uiEvent: StepCounterUIEvent) {
+        when (uiEvent) {
+            is StepCounterUIEvent.StartButtonClicked -> startSteps()
+            is StepCounterUIEvent.StopButtonClicked -> stopSteps()
+            else -> {}
+        }
+    }
+
+
+    fun startSteps(){
         stepsSensor.startListening()
         stepsSensor.setOnSensorValuesChangedListener { step->
-           steps= step[0]
-            Log.d("steps", "$step: ")
+            _uiState.value=_uiState.value.copy(steps = step[0].toInt(), distance =(step[0].toInt()/1408) )
         }
+    }
+
+    fun stopSteps(){
+        stepsSensor.stopListening()
     }
 
 

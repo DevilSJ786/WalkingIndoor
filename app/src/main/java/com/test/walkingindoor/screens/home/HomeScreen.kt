@@ -3,8 +3,8 @@ package com.test.walkingindoor.screens.home
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -33,7 +33,6 @@ import com.test.walkingindoor.viewmodel.HomeViewModel
 fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
 
 
-    val stepsCount = homeViewModel.steps
     val selectedGoal by homeViewModel.selectedGoal.collectAsState(emptyList())
     val selectedWalkTypes by homeViewModel.selectedWalkTypes.collectAsState("")
 
@@ -129,25 +128,29 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
                     verticalAlignment = Alignment.Top
                 ) {
                     ButtonWithColor(
-                        modifier = Modifier.weight(0.5f).padding(4.dp),
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .padding(4.dp),
                         color = Color.Green,
                         text = "SCHEDULE"
                     ) {
 
                     }
                     ButtonWithColor(
-                        modifier = Modifier.weight(0.5f).padding(4.dp),
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .padding(4.dp),
                         color = Color.Blue,
                         text = "START"
                     ) {
-
+                        homeViewModel.onUIEvent(StepCounterUIEvent.StartButtonClicked)
                     }
                 }
 
             }
         },
         sheetBackgroundColor = Color.Gray,
-        backgroundColor =  Color.DarkGray ,
+        backgroundColor = Color.DarkGray,
         sheetPeekHeight = 200.dp,
         scaffoldState = scaffoldState
 
@@ -162,9 +165,8 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-        Text(modifier = Modifier.size(100.dp).align(Alignment.CenterHorizontally), text ="count is : $stepsCount")
-            MainCircularSlider(){
-                 navController.navigate(route = AppScreens.StepsCounterScreen.name)
+            MainCircularSlider() {
+                navController.navigate(route = AppScreens.StepsCounterScreen.name)
             }
             DetailsCard(modifier = Modifier)
         }
@@ -174,15 +176,14 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
 
 @Composable
 fun MainCircularSlider(modifier: Modifier = Modifier, onClick: () -> Unit) {
-
+    val isDuration = remember {
+        mutableStateOf(true)
+    }
     Surface(
         modifier = modifier
             .padding(start = 16.dp, end = 16.dp, top = 9.dp, bottom = 0.dp)
             .width(380.dp)
-            .height(300.dp)
-            .clickable {
-                onClick()
-            },
+            .height(300.dp),
         color = Color(0xFF7415BD),
         shape = RoundedCornerShape(corner = CornerSize(15.dp)),
     ) {
@@ -193,10 +194,13 @@ fun MainCircularSlider(modifier: Modifier = Modifier, onClick: () -> Unit) {
         ) {
             CircularSlider(
                 modifier = Modifier.size(160.dp),
-                scaleRange = 60f
-            ) {
-                Log.d("progress", it.toString())
-            }
+                scaleRange = 60f,
+                isDuration = isDuration.value,
+                onChange = {
+                    Log.d("progress", it.toString())
+                           },
+                onChangeType = {isDuration.value=!isDuration.value}
+            )
 
             Row(
                 modifier = Modifier
@@ -204,9 +208,24 @@ fun MainCircularSlider(modifier: Modifier = Modifier, onClick: () -> Unit) {
                     .padding(6.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProgressBarItem(modifier = Modifier.weight(0.3f), value = 57, name = "Recommended")
-                ProgressBarItem(modifier = Modifier.weight(0.3f), value = 10, name = "Goal")
-                ProgressBarItem(modifier = Modifier.weight(0.3f), value = 30, name = "Achieved")
+                ProgressBarItem(
+                    isDuration = isDuration.value,
+                    modifier = Modifier.weight(0.3f),
+                    value = 57,
+                    name = "Recommended"
+                )
+                ProgressBarItem(
+                    isDuration = isDuration.value,
+                    modifier = Modifier.weight(0.3f),
+                    value = 10,
+                    name = "Goal"
+                )
+                ProgressBarItem(
+                    isDuration = isDuration.value,
+                    modifier = Modifier.weight(0.3f),
+                    value = 30,
+                    name = "Achieved"
+                )
             }
         }
     }
@@ -218,40 +237,40 @@ fun DetailsCard(modifier: Modifier) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(100.dp)
+            .height(150.dp)
             .padding(16.dp),
         shape = RoundedCornerShape(8.dp),
         backgroundColor = Color.LightGray,
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
             DetailsItem(
                 type = "Distance",
                 value = "5 Km",
-                id = R.drawable.baseline_heart_broken_24
+                id = R.drawable.total_distance
             ) {
 
             }
             DetailsItem(
                 type = "Calories",
                 value = "400 kal",
-                id = R.drawable.baseline_heart_broken_24
+                id = R.drawable.calories
             ) {
 
             }
             DetailsItem(
                 type = "Heart Rate",
                 value = "78",
-                id = R.drawable.baseline_heart_broken_24
+                id = R.drawable.heartrate
             ) {
 
             }
             DetailsItem(
                 type = "Blood Pressure",
                 value = "120/80 hhmg",
-                id = R.drawable.baseline_heart_broken_24
+                id = R.drawable.pulse_rate
             ) {
 
             }
@@ -269,21 +288,24 @@ fun DetailsItem(
 ) {
     Column(
         modifier = modifier
-            .height(100.dp)
-            .width(80.dp)
-            .padding(4.dp),
+            .height(160.dp)
+            .width(80.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(painter = painterResource(id), contentDescription = null)
-        Text(text = type, fontSize = 10.sp)
-        Text(text = value, fontSize = 10.sp)
+        Image(
+            modifier = Modifier.size(30.dp),
+            painter = painterResource(id),
+            contentDescription = null
+        )
+        Text(modifier = Modifier.padding(vertical = 3.dp), text = type, fontSize = 12.sp)
+        Text(text = value, fontSize = 12.sp, fontWeight = FontWeight.Bold)
     }
 }
 
 
 @Composable
-fun ProgressBarItem(modifier: Modifier, value: Int, name: String) {
+fun ProgressBarItem(modifier: Modifier, value: Int, name: String, isDuration: Boolean) {
 
     Column(
         modifier = modifier
@@ -294,7 +316,7 @@ fun ProgressBarItem(modifier: Modifier, value: Int, name: String) {
     ) {
         Text(
             modifier = Modifier.padding(bottom = 16.dp),
-            text = "$value min",
+            text = "$value" + if (isDuration) " min" else " Km",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
