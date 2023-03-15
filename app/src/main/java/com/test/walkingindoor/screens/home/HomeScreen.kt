@@ -83,9 +83,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
                         item {
                             CardItem(
                                 name = "Goals",
-                                type = selectedGoal.let { list ->
-                                    list.ifEmpty { "Select Goals" }
-                                }.toString(),
+                                type = if (selectedGoal.isNotEmpty()){selectedGoal[0]} else{"Select Goals"},
                                 id = R.drawable.round_filter_vintage_24,
                                 onClick = { navController.navigate(route = AppScreens.GoalsScreen.name) })
                         }
