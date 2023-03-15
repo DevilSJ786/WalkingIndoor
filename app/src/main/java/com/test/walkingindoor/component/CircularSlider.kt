@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.sp
+import com.test.walkingindoor.utils.spacing
 import kotlin.math.*
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -149,7 +150,7 @@ fun CircularSlider(
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.spacedBy(spacing.small)
         ) {
             Text(
                 modifier = Modifier.clickable { onChangeType() },
@@ -159,7 +160,7 @@ fun CircularSlider(
             )
             Text(
                 text = "%.0f minutes".format(range(appliedAngle / 300f * 100, scaleRange)),
-                fontSize = 18.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.onBackground
             )

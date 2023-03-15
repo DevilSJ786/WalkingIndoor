@@ -13,7 +13,7 @@ import com.test.walkingindoor.viewmodel.HomeViewModel
 @Composable
 fun AppNavigation(homeViewModel: HomeViewModel) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.StepsCounterScreen.name) {
+    NavHost(navController = navController, startDestination = AppScreens.HomeScreen.name) {
         composable(AppScreens.HomeScreen.name) {
            HomeScreen(navController = navController, homeViewModel)
         }

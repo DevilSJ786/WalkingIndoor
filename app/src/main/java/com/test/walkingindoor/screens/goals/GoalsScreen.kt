@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.test.walkingindoor.model.ListItem
+import com.test.walkingindoor.utils.spacing
 import com.test.walkingindoor.viewmodel.HomeViewModel
 
 @Composable
@@ -43,11 +44,10 @@ fun GoalsScreen(navController: NavController, homeViewModel: HomeViewModel) {
             Row(
                 modifier = Modifier.padding(start = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                horizontalArrangement = Arrangement.spacedBy(spacing.medium)
             ) {
                 Icon(
                     modifier = Modifier
-                        .padding(6.dp)
                         .clickable { navController.popBackStack() },
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = null
@@ -55,7 +55,7 @@ fun GoalsScreen(navController: NavController, homeViewModel: HomeViewModel) {
                 Text(
                     text = "Goals",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 25.sp,
+                    fontSize = 18.sp,
                     style = MaterialTheme.typography.body1
                 )
             }
@@ -65,7 +65,7 @@ fun GoalsScreen(navController: NavController, homeViewModel: HomeViewModel) {
         LazyColumn(modifier = Modifier.padding(it)) {
             item {
                 Text(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     text = "Select the Goals",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
@@ -75,7 +75,7 @@ fun GoalsScreen(navController: NavController, homeViewModel: HomeViewModel) {
             items(items.size) { i ->
                 Surface(
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, top = 9.dp, bottom = 0.dp)
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
                         .height(60.dp)
                         .clickable {

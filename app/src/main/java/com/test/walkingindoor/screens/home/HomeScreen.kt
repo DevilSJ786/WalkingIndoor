@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import com.test.walkingindoor.R
 import com.test.walkingindoor.component.*
 import com.test.walkingindoor.navigation.AppScreens
+import com.test.walkingindoor.utils.spacing
 import com.test.walkingindoor.viewmodel.HomeViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -51,86 +52,62 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
     BottomSheetScaffold(
         sheetContent = {
             Column(
-                Modifier
-                    .fillMaxHeight(0.6f)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier=Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(spacing.medium)
             ) {
                 BottomSheetDragHandle()
-                Divider(
-                    modifier = Modifier
-                        .height(3.dp)
-                        .fillMaxWidth()
-                )
+
                 Row(
-                    Modifier
-                        .padding(7.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.Top
+                    horizontalArrangement = Arrangement.spacedBy(spacing.small)
                 ) {
-                    CardItem(
+                    CardItem(modifier = Modifier.weight(0.5f),
                         name = "Music ",
                         type = "Spotify",
                         id = R.drawable.baseline_music_note_24
                     ) {}
-                    DistanceCardItem(
-                        name = "Distance",
-                        id = R.drawable.baseline_horizontal_distribute_24
-                    )
+                    CardItem(modifier = Modifier.weight(0.5f),
+                        name = "Mode ",
+                        type = "Indoor",
+                        id = R.drawable.baseline_home_24,
+                        onClick = {})
                 }
 
                 AnimatedVisibility(visible = visible) {
                     LazyVerticalGrid(
-                        columns = GridCells.Adaptive(128.dp),
-                        contentPadding = PaddingValues(
-                            start = 12.dp,
-                            top = 0.dp,
-                            end = 12.dp,
-                            bottom = 16.dp
-                        ),
-                        content = {
-                            item {
-                                CardItem(
-                                    name = "Mode ",
-                                    type = "Indoor",
-                                    id = R.drawable.baseline_home_24,
-                                    onClick = {})
-                            }
-                            item {
-                                CardItem(
-                                    name = "Goals",
-                                    type = selectedGoal.let { list ->
-                                        list.ifEmpty { "Select Goals" }
-                                    }.toString(),
-                                    id = R.drawable.round_filter_vintage_24,
-                                    onClick = { navController.navigate(route = AppScreens.GoalsScreen.name) })
-                            }
-                            item {
-                                CardItem(
-                                    name = "Types",
-                                    type = selectedWalkTypes.let {
-                                        it.ifBlank { "Select Types" }
-                                    },
-                                    id = R.drawable.baseline_merge_type_24,
-                                    onClick = { navController.navigate(route = AppScreens.WalkingtypesScreen.name) })
-                            }
-
-                        }
+                        horizontalArrangement =Arrangement.spacedBy(spacing.small),
+                        verticalArrangement = Arrangement.spacedBy(spacing.medium),
+                        columns = GridCells.Fixed(2)
                     )
+                    {
+
+                        item {
+                            CardItem(
+                                name = "Goals",
+                                type = selectedGoal.let { list ->
+                                    list.ifEmpty { "Select Goals" }
+                                }.toString(),
+                                id = R.drawable.round_filter_vintage_24,
+                                onClick = { navController.navigate(route = AppScreens.GoalsScreen.name) })
+                        }
+                        item {
+                            CardItem(
+                                name = "Types",
+                                type = selectedWalkTypes.let {
+                                    it.ifBlank { "Select Types" }
+                                },
+                                id = R.drawable.baseline_merge_type_24,
+                                onClick = { navController.navigate(route = AppScreens.WalkingtypesScreen.name) })
+                        }
+
+                    }
                 }
 
-
                 Row(
-                    Modifier
-                        .padding(6.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
+                    horizontalArrangement = Arrangement.spacedBy(spacing.medium),
                 ) {
                     ButtonWithColor(
                         modifier = Modifier
-                            .weight(0.5f)
-                            .padding(4.dp),
+                            .weight(0.5f),
                         color = Color.Green,
                         text = "SCHEDULE"
                     ) {
@@ -138,12 +115,12 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
                     }
                     ButtonWithColor(
                         modifier = Modifier
-                            .weight(0.5f)
-                            .padding(4.dp),
+                            .weight(0.5f),
                         color = Color.Blue,
                         text = "START"
                     ) {
                         homeViewModel.onUIEvent(StepCounterUIEvent.StartButtonClicked)
+                        navController.navigate(route = AppScreens.StepsCounterScreen.name)
                     }
                 }
 
@@ -159,10 +136,9 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel) {
         visible = !sheetState.isCollapsed
         Column(
             modifier = Modifier
-                .padding(it)
+                .padding(16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(spacing.medium),
         ) {
 
             MainCircularSlider() {
@@ -180,20 +156,15 @@ fun MainCircularSlider(modifier: Modifier = Modifier, onClick: () -> Unit) {
         mutableStateOf(true)
     }
     Surface(
-        modifier = modifier
-            .padding(start = 16.dp, end = 16.dp, top = 9.dp, bottom = 0.dp)
-            .width(380.dp)
-            .height(300.dp),
-        color = Color(0xFF7415BD),
+        color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(corner = CornerSize(15.dp)),
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
+        Column( modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(spacing.medium),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CircularSlider(
-                modifier = Modifier.size(160.dp),
+                modifier = Modifier.size(180.dp),
                 scaleRange = 60f,
                 isDuration = isDuration.value,
                 onChange = {
@@ -203,10 +174,7 @@ fun MainCircularSlider(modifier: Modifier = Modifier, onClick: () -> Unit) {
             )
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(6.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(spacing.medium)
             ) {
                 ProgressBarItem(
                     isDuration = isDuration.value,
@@ -235,16 +203,13 @@ fun MainCircularSlider(modifier: Modifier = Modifier, onClick: () -> Unit) {
 @Composable
 fun DetailsCard(modifier: Modifier) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .padding(16.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(8.dp),
-        backgroundColor = Color.LightGray,
+        backgroundColor = MaterialTheme.colors.background,
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceAround
+            modifier=Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(spacing.medium)
         ) {
             DetailsItem(
                 type = "Distance",
@@ -287,10 +252,8 @@ fun DetailsItem(
     onClick: () -> Unit
 ) {
     Column(
-        modifier = modifier
-            .height(160.dp)
-            .width(80.dp),
-        verticalArrangement = Arrangement.Center,
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(spacing.small),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -298,7 +261,7 @@ fun DetailsItem(
             painter = painterResource(id),
             contentDescription = null
         )
-        Text(modifier = Modifier.padding(vertical = 3.dp), text = type, fontSize = 12.sp)
+        Text( text = type, fontSize = 12.sp)
         Text(text = value, fontSize = 12.sp, fontWeight = FontWeight.Bold)
     }
 }
@@ -308,16 +271,13 @@ fun DetailsItem(
 fun ProgressBarItem(modifier: Modifier, value: Int, name: String, isDuration: Boolean) {
 
     Column(
-        modifier = modifier
-            .height(80.dp)
-            .width(120.dp),
-        verticalArrangement = Arrangement.Top,
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(spacing.small),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = Modifier.padding(bottom = 16.dp),
             text = "$value" + if (isDuration) " min" else " Km",
-            fontSize = 16.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Bold
         )
         CustomProgressBar(
@@ -330,9 +290,8 @@ fun ProgressBarItem(modifier: Modifier, value: Int, name: String, isDuration: Bo
             value
         )
         Text(
-            modifier = Modifier.padding(top = 16.dp),
             text = name,
-            fontSize = 16.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Bold
         )
     }

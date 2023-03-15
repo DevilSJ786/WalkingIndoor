@@ -9,7 +9,9 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AdsClick
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,7 +67,7 @@ fun SelectItem(navController: NavController, list: List<String>, onClick: (Strin
                 Text(
                     text = "Walking Types",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 25.sp,
+                    fontSize = 20.sp,
                     style = MaterialTheme.typography.body1
                 )
             }
@@ -73,16 +75,16 @@ fun SelectItem(navController: NavController, list: List<String>, onClick: (Strin
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
             item {  Text(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 text = "Select the Walking Type",
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 style = MaterialTheme.typography.body1
             ) }
             items(count = list.size) { indexNumber ->
                 Surface(
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, top = 9.dp, bottom = 0.dp)
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
                         .height(60.dp)
                         .clickable {

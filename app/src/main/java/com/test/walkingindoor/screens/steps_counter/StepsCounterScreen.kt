@@ -14,10 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.test.walkingindoor.component.ButtonWithColor
+import com.test.walkingindoor.utils.spacing
 import com.test.walkingindoor.viewmodel.HomeViewModel
 
 
@@ -29,13 +31,12 @@ fun StepsCounterScreen(navController: NavController,homeViewModel:HomeViewModel)
         backgroundColor = MaterialTheme.colors.background,
         topBar = {
             Row(
-                modifier = Modifier.padding(start = 16.dp, top = 10.dp),
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                horizontalArrangement = Arrangement.spacedBy(spacing.medium)
             ) {
                 Icon(
                     modifier = Modifier
-                        .padding(6.dp)
                         .clickable { navController.popBackStack() },
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = null
@@ -65,12 +66,13 @@ fun StepsItem(modifier: Modifier = Modifier,state: StepCounterUIState) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.Center
+                .padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(spacing.small)
         ) {
+            Spacer(modifier = Modifier.width(16.dp))
             Icon(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(35.dp)
                     .align(Alignment.CenterVertically),
                 imageVector = Icons.Default.RunCircle,
                 contentDescription = null
@@ -78,24 +80,22 @@ fun StepsItem(modifier: Modifier = Modifier,state: StepCounterUIState) {
             Text(
                 text = "Continue running?",
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.h4
+                style = MaterialTheme.typography.h5
             )
         }
         Text(
-            modifier = Modifier.padding(start = 20.dp, bottom = 20.dp),
+            modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
             text = "Session Details",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.h6
         )
 
         LazyVerticalGrid(
-            horizontalArrangement =Arrangement.SpaceAround,
+            horizontalArrangement =Arrangement.spacedBy(spacing.small),
+            verticalArrangement = Arrangement.spacedBy(spacing.medium),
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(
-                start = 6.dp,
-                top = 0.dp,
-                end = 6.dp,
-                bottom = 4.dp
+               horizontal = 16.dp
             )
         ) {
             item {
@@ -130,20 +130,18 @@ fun StepsItem(modifier: Modifier = Modifier,state: StepCounterUIState) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(spacing.medium)
         ) {
             ButtonWithColor(
                 modifier = Modifier
-                    .weight(0.5f)
-                    .padding(4.dp), color = Color.Red, text = "END"
+                    .weight(0.5f), color = Color.Red, text = "END"
             ) {
 
             }
             ButtonWithColor(
                 modifier = Modifier
-                    .weight(0.5f)
-                    .padding(4.dp), color = Color.Blue, text = "RESUME"
+                    .weight(0.5f), color = Color.Blue, text = "RESUME"
             ) {
 
             }
@@ -152,36 +150,31 @@ fun StepsItem(modifier: Modifier = Modifier,state: StepCounterUIState) {
 }
 
 @Composable
+@Preview
 fun SessionCard(
     modifier: Modifier = Modifier,
     type: String = "Distance",
     count: String = "500Km",
-    onClick: () -> Unit
+    onClick: () -> Unit={}
 ) {
     Card(
         modifier = modifier
-//            .height(92.dp)
-//            .width(185.dp)
-//            .padding(16.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
         backgroundColor = Color.LightGray,
     ) {
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(6.dp),
-            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(spacing.small),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                modifier = Modifier.padding(4.dp),
                 text = type,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.subtitle1
             )
             Text(
-                modifier = Modifier.padding(start = 4.dp),
                 text = count,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.subtitle1

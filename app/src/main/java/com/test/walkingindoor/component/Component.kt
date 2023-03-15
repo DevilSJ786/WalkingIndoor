@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.test.walkingindoor.utils.spacing
 import com.test.walkingindoor.widgets.RoundIconButton
 
 @Composable
@@ -31,34 +32,28 @@ fun CardItem(
 ) {
     Card(
         modifier = modifier
-            .height(100.dp)
-            .width(170.dp)
-            .padding(6.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
         backgroundColor = MaterialTheme.colors.surface,
     ) {
 
         Row(
-            modifier = modifier.padding(4.dp), verticalAlignment = Alignment.Top
+            modifier = modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(spacing.small)
         ) {
-            Column(modifier.padding(5.dp), verticalArrangement = Arrangement.Top) {
+            Column( verticalArrangement = Arrangement.spacedBy(spacing.small)) {
                 Icon(
                     painter = painterResource(id), contentDescription = null
                 )
             }
-
             Column(
-                modifier = Modifier.padding(6.dp),
-                verticalArrangement = Arrangement.Top,
+                verticalArrangement = Arrangement.spacedBy(spacing.small),
             ) {
                 Text(
-                    modifier = Modifier.padding(bottom = 6.dp),
                     text = name,
                     style = MaterialTheme.typography.h6
                 )
                 Text(
-                    modifier = Modifier.padding(top = 6.dp),
                     text = type,
                     style = MaterialTheme.typography.subtitle1
                 )
@@ -69,7 +64,7 @@ fun CardItem(
 
 @Composable
 fun ButtonWithColor(
-    modifier: Modifier, color: Color, text: String, onClick: () -> Unit
+    modifier: Modifier=Modifier, color: Color, text: String, onClick: () -> Unit
 ) {
 
     Button(
@@ -93,8 +88,7 @@ fun DistanceCardItem(
     Card(
         modifier = modifier
             .height(100.dp)
-            .width(170.dp)
-            .padding(6.dp),
+            .width(170.dp),
         shape = RoundedCornerShape(8.dp),
         backgroundColor = MaterialTheme.colors.surface,
     ) {
@@ -139,7 +133,7 @@ fun BottomSheetDragHandle(
     height: Dp = 24.dp,
     barWidth: Dp = 32.dp,
     barHeight: Dp = 4.dp,
-    color: Color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+    color: Color = MaterialTheme.colors.onBackground.copy(alpha = 0.3f),
     onClick: () -> Unit = {}
 ) {
     Spacer(modifier = modifier
